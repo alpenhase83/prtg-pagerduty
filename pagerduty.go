@@ -20,7 +20,7 @@ type PRTGEvent struct {
 	ServiceKey  string
 	IncidentKey string
 	Severity    string
-	Priority	string
+	Priority    string
 	CustRouting string
 }
 
