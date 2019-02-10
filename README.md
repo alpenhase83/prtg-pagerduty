@@ -28,4 +28,4 @@ Populate the parameter field with the following, substituting the service key wi
 
 `-probe "%probe" -device "%device" -name "%name" -status "%status" -date "%datetime" -linkdevice %linkdevice -message "%message" -priority "%priority"  -custrouting "CDA_Alert_Routing" -servicekey myShineyV2IntegrationKey`
 
-If you want the severity set on the alert, add `-severity "critical"` replacing the value with the alert severity that you want set.
+If you want the severity set on the alert, add `-severity "critical"` the value can be replaced with the alert severity that you want set, in this case, critical is used.
