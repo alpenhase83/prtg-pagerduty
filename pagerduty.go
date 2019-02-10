@@ -20,6 +20,8 @@ type PRTGEvent struct {
 	ServiceKey  string
 	IncidentKey string
 	Severity    string
+	Priority	string
+	CustRouting string
 }
 
 func main() {
@@ -32,6 +34,8 @@ func main() {
 	var message = flag.String("message", "message", "The PRTG message for the alert")
 	var serviceKey = flag.String("servicekey", "myServiceKey", "The PagerDuty v2 service integration key")
 	var severity = flag.String("severity", "error", "The severity level of the incident (critical, error, warning, or info)")
+	var priority = flag.String("priority", "priority", "The Priority of the Sensor in PRTG")
+	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
 	flag.Parse()
 
 	pd := &PRTGEvent{
@@ -45,6 +49,8 @@ func main() {
 		ServiceKey:  *serviceKey,
 		IncidentKey: *probe + "-" + *device + "-" + *name,
 		Severity:    *severity,
+		Priority:    *priority,
+		CustRouting: *custrouting,
 	}
 
 	if strings.Contains(pd.Status, "Up") || strings.Contains(pd.Status, "ended") {
@@ -82,7 +88,9 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 				"\nIncidentKey: " + prtg.IncidentKey +
 				"\nStatus: " + prtg.Status +
 				"\nDate: " + prtg.Date +
-				"\nMessage: " + prtg.Message,
+				"\nMessage: " + prtg.Message +
+				"\nPriority: " + prtg.Priority +
+				"\nCustom Routing: " + prtg.CustRouting,
 		},
 	}
 	res, err := event.ManageEvent(*newEvent)
