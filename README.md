@@ -20,9 +20,9 @@ From an Adminstrator powershell session:
 `cp pagerduty.exe "C:\Program Files (x86)\PRTG Network Monitor\Notifications\EXE\"`
 
 
-## Configuring notification in PRTG
+## Configuring PRTG Notification Template
 
-Create new basic notification. Check "EXECUTE PROGRAM" selecting pagerduty.exe from the Program File dropdown.
+Create new notification template. Check "EXECUTE PROGRAM" selecting pagerduty.exe from the Program File dropdown.
 
 Populate the parameter field with the following, substituting the service key with your service integration key
 
