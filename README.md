@@ -16,6 +16,8 @@ Build the package
 
 `go build`
 
+### On the PRTG Core Server
+
 From an Adminstrator powershell session:
 
 `cp pagerduty.exe "C:\Program Files (x86)\PRTG Network Monitor\Notifications\EXE\"`
