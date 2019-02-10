@@ -6,7 +6,7 @@
 
 * Automatically resolve alerts when status returns to normal or paused in PRTG.
 
-* Pass Sensor Priority to PagerDuty for Event Rule Processing
+* Pass sensor priority to PagerDuty for event rule processing
 
 ## Build & Installation
 
