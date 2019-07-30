@@ -80,7 +80,7 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 			Summary:   prtg.IncidentKey,
 			Timestamp: t.Format(layout),
 			Source:    prtg.Link,
-			Severity:  prtg.Severity,
+			Severity:  translatePriority(prtg.Severity),
 			Component: prtg.Device,
 			Group:     prtg.Probe,
 			Class:     prtg.Name,
@@ -89,7 +89,6 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 				"\nStatus: " + prtg.Status +
 				"\nDate: " + prtg.Date +
 				"\nMessage: " + prtg.Message +
-				"\nPriority: " + prtg.Priority +
 				"\nCustom Routing: " + prtg.CustRouting,
 		},
 	}
@@ -111,4 +110,19 @@ func resolveEvent(prtg *PRTGEvent) (*event.Response, error) {
 		return nil, err
 	}
 	return res, nil
+}
+
+func translatePriority(priority string) (string){
+    switch priority {
+    case "*":
+        return "info"
+    case "**":
+        return "info"
+    case "***":
+        return "warning"
+    case "****":
+        return "error"
+    default:
+        return "critical"
+    }
 }

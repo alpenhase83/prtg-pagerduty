@@ -29,4 +29,15 @@ Populate the parameter field with the following, substituting the service key wi
 
 `-probe "%probe" -device "%device" -name "%name" -status "%status" -date "%datetime" -linkdevice %linkdevice -message "%message" -priority "%priority"  -custrouting "CDA_Alert_Routing" -servicekey myShineyV2IntegrationKey`
 
-If you want the severity set on the alert, add `-severity "critical"` the value can be replaced with the alert severity that you want set, in this case, critical is used.
+## PRTG Priority to PagerDuty Severity Mapping
+
+PagerDuty severity is mapped from PRTG priority stars as fallows: 
+
+| PRTG Priority   | PagerDuty Severity |
+|-----------------|--------------------|
+| x               | info               |
+| xx              | info               |
+| xxx             | warning            |
+| xxxx            | error              |
+| xxxxx / Default | critical           |
+
