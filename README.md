@@ -31,7 +31,7 @@ Populate the parameter field with the following, substituting the service key wi
 
 ## PRTG Priority to PagerDuty Severity Mapping
 
-PagerDuty severity is mapped from PRTG priority stars as fallows: 
+PagerDuty severity is mapped from PRTG priority stars as follows: 
 
 | PRTG Priority   | PagerDuty Severity |
 |-----------------|--------------------|
