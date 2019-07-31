@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 	"time"
+	"os"
 )
 
 // PRTGEvent represents the data passed by prtg via flags
@@ -80,7 +81,7 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 			Summary:   prtg.IncidentKey,
 			Timestamp: t.Format(layout),
 			Source:    prtg.Link,
-			Severity:  translatePriority(prtg.Severity),
+			Severity:  translatePriority(prtg.Priority),
 			Component: prtg.Device,
 			Group:     prtg.Probe,
 			Class:     prtg.Name,
@@ -115,7 +116,8 @@ func resolveEvent(prtg *PRTGEvent) (*event.Response, error) {
 func translatePriority(priority string) (string){
     switch priority {
     case "*":
-        return "info"
+        os.Exit(0)
+        return "info" //function requires a return
     case "**":
         return "info"
     case "***":
