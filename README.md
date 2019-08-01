@@ -35,9 +35,10 @@ PagerDuty severity is mapped from PRTG priority stars as follows:
 
 | PRTG Priority   | PagerDuty Severity |
 |-----------------|--------------------|
-| x               | info               |
+| x               | Ignore             |
 | xx              | info               |
 | xxx             | warning            |
 | xxxx            | error              |
 | xxxxx / Default | critical           |
 
+PRTG sensors with one star are ignored, and don't get sent to PagerDuty. 
