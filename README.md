@@ -12,7 +12,7 @@
 
 Build the package
 
-`go get github.com/ccummings-coeur/prtg-pagerduty`
+`go get github.com/coeurmining/prtg-pagerduty`
 
 `go build`
 
