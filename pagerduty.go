@@ -39,7 +39,7 @@ func main() {
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
 	flag.Parse()
 
-	log.Println(truncateString(name, 10))
+	log.Println(truncateString(*name, 10))
 
 	pd := &PRTGEvent{
 		Probe:       *probe,
@@ -67,7 +67,7 @@ func main() {
 	}
 }
 
-func truncateString(string, num int) string {
+func truncateString(str string, num int) string {
 	stringtotruncate := str
 	if len(str) > num {
 		if num > 3 {
