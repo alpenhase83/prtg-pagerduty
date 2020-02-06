@@ -37,20 +37,21 @@ func main() {
 	var severity = flag.String("severity", "error", "The severity level of the incident (critical, error, warning, or info)")
 	var priority = flag.String("priority", "priority", "The Priority of the Sensor in PRTG")
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
-	
+	var truncatelength = flag.String("truncatelength", "truncatelength", "The length that all inputs should be truncated to to prevent PagerDuty errors.")
+
 	flag.Parse()
 
-	*probe = truncateString(*probe, 100)
-	*device = truncateString(*device, 100)
-	*name = truncateString(*name, 100)
-	*status = truncateString(*status, 100)
-	*date = truncateString(*date, 100)
-	*link = truncateString(*link, 100)
-	*message = truncateString(*message, 100)
-	*serviceKey = truncateString(*serviceKey, 100)
-	*severity = truncateString(*severity, 100)
-	*priority = truncateString(*priority, 100)
-	*custrouting = truncateString(*custrouting, 100)
+	*probe = truncateString(*probe, truncatelength)
+	*device = truncateString(*device, truncatelength)
+	*name = truncateString(*name, truncatelength)
+	*status = truncateString(*status, truncatelength)
+	*date = truncateString(*date, truncatelength)
+	*link = truncateString(*link, truncatelength)
+	*message = truncateString(*message, truncatelength)
+	*serviceKey = truncateString(*serviceKey, truncatelength)
+	*severity = truncateString(*severity, truncatelength)
+	*priority = truncateString(*priority, truncatelength)
+	*custrouting = truncateString(*custrouting, truncatelength)
 	
 	pd := &PRTGEvent{
 		Probe:       *probe,
@@ -96,19 +97,19 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 		t = time.Now()
 	}
 	newEvent := &event.Event{
-		RoutingKey: truncateString(prtg.ServiceKey, 100),
+		RoutingKey: truncateString(prtg.ServiceKey, truncatelength),
 		Action:     "trigger",
-		DedupKey:   truncateString(prtg.IncidentKey, 100),
+		DedupKey:   truncateString(prtg.IncidentKey, truncatelength),
 		Client:     "PRTG",
-		ClientURL:  truncateString(prtg.Link, 100),
+		ClientURL:  truncateString(prtg.Link, truncatelength),
 		Payload: &event.Payload{
-			Summary:   truncateString(prtg.IncidentKey, 255),
+			Summary:   truncateString(prtg.IncidentKey, 254),
 			Timestamp: t.Format(layout),
-			Source:    truncateString(prtg.Link, 100),
+			Source:    truncateString(prtg.Link, truncatelength),
 			Severity:  translatePriority(prtg.Priority),
-			Component: truncateString(prtg.Device, 100),
-			Group:     truncateString(prtg.Probe, 100),
-			Class:     truncateString(prtg.Name, 100),
+			Component: truncateString(prtg.Device, truncatelength),
+			Group:     truncateString(prtg.Probe, truncatelength),
+			Class:     truncateString(prtg.Name, truncatelength),
 			Details: "Link: " + prtg.Link +
 				"\nIncidentKey: " + prtg.IncidentKey +
 				"\nStatus: " + prtg.Status +
