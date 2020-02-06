@@ -41,17 +41,17 @@ func main() {
 
 	flag.Parse()
 
-	*probe = truncateString(*probe, truncatelength)
-	*device = truncateString(*device, truncatelength)
-	*name = truncateString(*name, truncatelength)
-	*status = truncateString(*status, truncatelength)
-	*date = truncateString(*date, truncatelength)
-	*link = truncateString(*link, truncatelength)
-	*message = truncateString(*message, truncatelength)
-	*serviceKey = truncateString(*serviceKey, truncatelength)
-	*severity = truncateString(*severity, truncatelength)
-	*priority = truncateString(*priority, truncatelength)
-	*custrouting = truncateString(*custrouting, truncatelength)
+	*probe = truncateString(*probe, *truncatelength)
+	*device = truncateString(*device, *truncatelength)
+	*name = truncateString(*name, *truncatelength)
+	*status = truncateString(*status, *truncatelength)
+	*date = truncateString(*date, *truncatelength)
+	*link = truncateString(*link, *truncatelength)
+	*message = truncateString(*message, *truncatelength)
+	*serviceKey = truncateString(*serviceKey, *truncatelength)
+	*severity = truncateString(*severity, *truncatelength)
+	*priority = truncateString(*priority, *truncatelength)
+	*custrouting = truncateString(*custrouting, *truncatelength)
 	
 	pd := &PRTGEvent{
 		Probe:       *probe,
@@ -97,19 +97,19 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 		t = time.Now()
 	}
 	newEvent := &event.Event{
-		RoutingKey: truncateString(prtg.ServiceKey, truncatelength),
+		RoutingKey: truncateString(prtg.ServiceKey, *truncatelength),
 		Action:     "trigger",
-		DedupKey:   truncateString(prtg.IncidentKey, truncatelength),
+		DedupKey:   truncateString(prtg.IncidentKey, *truncatelength),
 		Client:     "PRTG",
-		ClientURL:  truncateString(prtg.Link, truncatelength),
+		ClientURL:  truncateString(prtg.Link, *truncatelength),
 		Payload: &event.Payload{
 			Summary:   truncateString(prtg.IncidentKey, 254),
 			Timestamp: t.Format(layout),
-			Source:    truncateString(prtg.Link, truncatelength),
+			Source:    truncateString(prtg.Link, *truncatelength),
 			Severity:  translatePriority(prtg.Priority),
-			Component: truncateString(prtg.Device, truncatelength),
-			Group:     truncateString(prtg.Probe, truncatelength),
-			Class:     truncateString(prtg.Name, truncatelength),
+			Component: truncateString(prtg.Device, *truncatelength),
+			Group:     truncateString(prtg.Probe, *truncatelength),
+			Class:     truncateString(prtg.Name, *truncatelength),
 			Details: "Link: " + prtg.Link +
 				"\nIncidentKey: " + prtg.IncidentKey +
 				"\nStatus: " + prtg.Status +
