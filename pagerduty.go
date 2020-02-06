@@ -23,7 +23,6 @@ type PRTGEvent struct {
 	Severity    string
 	Priority    string
 	CustRouting string
-	TruncateLength int
 }
 
 func main() {
@@ -38,7 +37,7 @@ func main() {
 	var severity = flag.String("severity", "error", "The severity level of the incident (critical, error, warning, or info)")
 	var priority = flag.String("priority", "priority", "The Priority of the Sensor in PRTG")
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
-	var truncatelength = flag.Int("truncatelength", "truncatelength", "The length that all inputs should be truncated to to prevent PagerDuty errors.")
+	var  truncatelength int = flag.Int("truncatelength", "truncatelength", "The length that all inputs should be truncated to to prevent PagerDuty errors.")
 
 	flag.Parse()
 
