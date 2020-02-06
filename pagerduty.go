@@ -67,7 +67,7 @@ func main() {
 	}
 }
 
-func truncateString(str string, num int) string {
+func truncateString(string, num int) string {
 	stringtotruncate := str
 	if len(str) > num {
 		if num > 3 {
