@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/ccummings-coeur/prtg-pagerduty/event"
+	"github.com/coeurmining/prtg-pagerduty/event"
 	"log"
 	"strings"
 	"time"
@@ -39,6 +39,8 @@ func main() {
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
 	flag.Parse()
 
+	var name = truncateString(name, 10)
+
 	pd := &PRTGEvent{
 		Probe:       *probe,
 		Device:      *device,
@@ -63,6 +65,17 @@ func main() {
 		}
 		log.Println(event)
 	}
+}
+
+func truncateString(str string, num int) string {
+	stringtotruncate := str
+	if len(str) > num {
+		if num > 3 {
+			num -= 3
+		}
+		stringtotruncate = str[0:num] + "..."
+	}
+	return stringtotruncate
 }
 
 func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
