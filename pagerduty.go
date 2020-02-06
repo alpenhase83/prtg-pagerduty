@@ -23,6 +23,7 @@ type PRTGEvent struct {
 	Severity    string
 	Priority    string
 	CustRouting string
+	TruncateLength int
 }
 
 func main() {
