@@ -39,9 +39,9 @@ func main() {
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
 	flag.Parse()
 
-	log.Println(name)
+	log.Println(*name)
 	*name = truncateString(*name, 10)
-	log.Println(name)
+	log.Println(*name)
 	
 	pd := &PRTGEvent{
 		Probe:       *probe,
@@ -86,6 +86,9 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 	if err != nil {
 		t = time.Now()
 	}
+
+
+
 	newEvent := &event.Event{
 		RoutingKey: prtg.ServiceKey,
 		Action:     "trigger",
