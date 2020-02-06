@@ -95,23 +95,20 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 	if err != nil {
 		t = time.Now()
 	}
-
-
-
 	newEvent := &event.Event{
-		RoutingKey: prtg.ServiceKey,
+		RoutingKey: truncateString(prtg.ServiceKey, 100),
 		Action:     "trigger",
-		DedupKey:   prtg.IncidentKey,
-		Client:     "PRTG Link",
-		ClientURL:  prtg.Link,
+		DedupKey:   truncateString(prtg.IncidentKey, 100),
+		Client:     "PRTG",
+		ClientURL:  truncateString(prtg.Link, 100),
 		Payload: &event.Payload{
-			Summary:   prtg.IncidentKey,
+			Summary:   truncateString(prtg.IncidentKey, 255),
 			Timestamp: t.Format(layout),
-			Source:    prtg.Link,
+			Source:    truncateString(prtg.Link, 100),
 			Severity:  translatePriority(prtg.Priority),
-			Component: prtg.Device,
-			Group:     prtg.Probe,
-			Class:     prtg.Name,
+			Component: truncateString(prtg.Device, 100),
+			Group:     truncateString(prtg.Probe, 100),
+			Class:     truncateString(prtg.Name, 100),
 			Details: "Link: " + prtg.Link +
 				"\nIncidentKey: " + prtg.IncidentKey +
 				"\nStatus: " + prtg.Status +
