@@ -48,7 +48,7 @@ func main() {
 	*status = truncateString(*status, *truncatelength)
 	*date = truncateString(*date, *truncatelength)
 	*link = truncateString(*link, *truncatelength)
-	*message = truncateString(*message, *truncatelength)
+	// *message = truncateString(*message, *truncatelength)
 	*serviceKey = truncateString(*serviceKey, *truncatelength)
 	*severity = truncateString(*severity, *truncatelength)
 	*priority = truncateString(*priority, *truncatelength)
