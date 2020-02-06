@@ -66,6 +66,7 @@ func main() {
 		Severity:    *severity,
 		Priority:    *priority,
 		CustRouting: *custrouting,
+		TruncateLength: *truncatelength,
 	}
 
 	if strings.Contains(pd.Status, "Up") || strings.Contains(pd.Status, "ended") {
