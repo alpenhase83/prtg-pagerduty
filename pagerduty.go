@@ -40,7 +40,7 @@ func main() {
 	flag.Parse()
 
 	log.Println(name)
-	name = truncateString(*name, 10)
+	*name = truncateString(*name, 10)
 	log.Println(name)
 	
 	pd := &PRTGEvent{
