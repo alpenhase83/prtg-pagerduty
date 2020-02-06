@@ -61,7 +61,7 @@ func main() {
 		Link:        *link,
 		Message:     *message,
 		ServiceKey:  *serviceKey,
-		IncidentKey: truncateString(*probe + "-" + *device + "-" + *name, 100),
+		IncidentKey: truncateString(*probe + "-" + *device + "-" + *name, 50),
 		Severity:    *severity,
 		Priority:    *priority,
 		CustRouting: *custrouting,
