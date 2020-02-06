@@ -39,8 +39,10 @@ func main() {
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
 	flag.Parse()
 
-	log.Println(truncateString(*name, 10))
-
+	log.Println(name)
+	name = truncateString(*name, 10))
+	log.Println(name)
+	
 	pd := &PRTGEvent{
 		Probe:       *probe,
 		Device:      *device,
