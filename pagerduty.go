@@ -37,6 +37,7 @@ func main() {
 	var severity = flag.String("severity", "error", "The severity level of the incident (critical, error, warning, or info)")
 	var priority = flag.String("priority", "priority", "The Priority of the Sensor in PRTG")
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
+	
 	flag.Parse()
 
 	*probe = truncateString(*probe, 100)
@@ -60,7 +61,7 @@ func main() {
 		Link:        *link,
 		Message:     *message,
 		ServiceKey:  *serviceKey,
-		IncidentKey: *probe + "-" + *device + "-" + *name,
+		IncidentKey: truncateString(*probe + "-" + *device + "-" + *name, 100),
 		Severity:    *severity,
 		Priority:    *priority,
 		CustRouting: *custrouting,
