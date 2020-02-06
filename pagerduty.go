@@ -99,19 +99,19 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 		t = time.Now()
 	}
 	newEvent := &event.Event{
-		RoutingKey: truncateString(prtg.ServiceKey, prtg.truncatelength),
+		RoutingKey: truncateString(prtg.ServiceKey, prtg.TruncateLength),
 		Action:     "trigger",
-		DedupKey:   truncateString(prtg.IncidentKey, prtg.truncatelength),
+		DedupKey:   truncateString(prtg.IncidentKey, prtg.TruncateLength),
 		Client:     "PRTG",
-		ClientURL:  truncateString(prtg.Link, prtg.truncatelength),
+		ClientURL:  truncateString(prtg.Link, prtg.TruncateLength),
 		Payload: &event.Payload{
 			Summary:   truncateString(prtg.IncidentKey, 254),
 			Timestamp: t.Format(layout),
-			Source:    truncateString(prtg.Link, prtg.truncatelength),
+			Source:    truncateString(prtg.Link, prtg.TruncateLength),
 			Severity:  translatePriority(prtg.Priority),
-			Component: truncateString(prtg.Device, prtg.truncatelength),
-			Group:     truncateString(prtg.Probe, prtg.truncatelength),
-			Class:     truncateString(prtg.Name, prtg.truncatelength),
+			Component: truncateString(prtg.Device, prtg.TruncateLength),
+			Group:     truncateString(prtg.Probe, prtg.TruncateLength),
+			Class:     truncateString(prtg.Name, prtg.TruncateLength),
 			Details: "Link: " + prtg.Link +
 				"\nIncidentKey: " + prtg.IncidentKey +
 				"\nStatus: " + prtg.Status +
