@@ -102,7 +102,7 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 		RoutingKey: prtg.ServiceKey,
 		Action:     "trigger",
 		DedupKey:   prtg.IncidentKey,
-		Client:     "PRTG: " + prtg.IncidentKey,
+		Client:     "PRTG Link",
 		ClientURL:  prtg.Link,
 		Payload: &event.Payload{
 			Summary:   prtg.IncidentKey,
