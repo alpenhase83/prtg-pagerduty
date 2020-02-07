@@ -39,7 +39,6 @@ func main() {
 	var priority = flag.String("priority", "priority", "The Priority of the Sensor in PRTG")
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
 	var truncatelength = flag.Int("truncatelength", 99, "The length that all inputs should be truncated to to prevent PagerDuty errors.")
-
 	flag.Parse()
 
 	*probe = truncateString(*probe, *truncatelength)
