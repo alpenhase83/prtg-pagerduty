@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/ccummings-coeur/prtg-pagerduty/event"
+	"github.com/coeurmining/prtg-pagerduty/event"
 	"log"
 	"strings"
 	"time"
@@ -23,6 +23,7 @@ type PRTGEvent struct {
 	Severity    string
 	Priority    string
 	CustRouting string
+	TruncateLength int
 }
 
 func main() {
@@ -37,8 +38,20 @@ func main() {
 	var severity = flag.String("severity", "error", "The severity level of the incident (critical, error, warning, or info)")
 	var priority = flag.String("priority", "priority", "The Priority of the Sensor in PRTG")
 	var custrouting = flag.String("custrouting", "custrouting", "The custom routing identifier for PD Event Rules")
+	var truncatelength = flag.Int("truncatelength", 99, "The length that all inputs should be truncated to to prevent PagerDuty errors.")
 	flag.Parse()
 
+	*probe = truncateString(*probe, *truncatelength)
+	*device = truncateString(*device, *truncatelength)
+	*name = truncateString(*name, *truncatelength)
+	*status = truncateString(*status, *truncatelength)
+	*date = truncateString(*date, *truncatelength)
+	*link = truncateString(*link, *truncatelength)
+	*serviceKey = truncateString(*serviceKey, *truncatelength)
+	*severity = truncateString(*severity, *truncatelength)
+	*priority = truncateString(*priority, *truncatelength)
+	*custrouting = truncateString(*custrouting, *truncatelength)
+	
 	pd := &PRTGEvent{
 		Probe:       *probe,
 		Device:      *device,
@@ -52,6 +65,7 @@ func main() {
 		Severity:    *severity,
 		Priority:    *priority,
 		CustRouting: *custrouting,
+		TruncateLength: *truncatelength,
 	}
 
 	if strings.Contains(pd.Status, "Up") || strings.Contains(pd.Status, "ended") {
@@ -65,6 +79,17 @@ func main() {
 	}
 }
 
+func truncateString(str string, num int) string {
+	stringtotruncate := str
+	if len(str) > num {
+		if num > 3 {
+			num -= 3
+		}
+		stringtotruncate = str[0:num] + "..."
+	}
+	return stringtotruncate
+}
+
 func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 	const layout = "2006-01-02T15:04:05.000Z"
 	t, err := time.Parse(layout, prtg.Date)
@@ -72,19 +97,19 @@ func triggerEvent(prtg *PRTGEvent) (*event.Response, error) {
 		t = time.Now()
 	}
 	newEvent := &event.Event{
-		RoutingKey: prtg.ServiceKey,
+		RoutingKey: truncateString(prtg.ServiceKey, prtg.TruncateLength),
 		Action:     "trigger",
-		DedupKey:   prtg.IncidentKey,
-		Client:     "PRTG: " + prtg.IncidentKey,
-		ClientURL:  prtg.Link,
+		DedupKey:   truncateString(prtg.IncidentKey, prtg.TruncateLength),
+		Client:     "PRTG",
+		ClientURL:  truncateString(prtg.Link, prtg.TruncateLength),
 		Payload: &event.Payload{
-			Summary:   prtg.IncidentKey,
+			Summary:   truncateString(prtg.IncidentKey, 254),
 			Timestamp: t.Format(layout),
-			Source:    prtg.Link,
+			Source:    truncateString(prtg.Link, prtg.TruncateLength),
 			Severity:  translatePriority(prtg.Priority),
-			Component: prtg.Device,
-			Group:     prtg.Probe,
-			Class:     prtg.Name,
+			Component: truncateString(prtg.Device, prtg.TruncateLength),
+			Group:     truncateString(prtg.Probe, prtg.TruncateLength),
+			Class:     truncateString(prtg.Name, prtg.TruncateLength),
 			Details: "Link: " + prtg.Link +
 				"\nIncidentKey: " + prtg.IncidentKey +
 				"\nStatus: " + prtg.Status +
